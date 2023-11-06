@@ -34,7 +34,7 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "2149021166";
+    const serviceWorkerVersion = "4057747923";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -42,7 +42,21 @@
 <body>
   <script>
     window.addEventListener('load', function(ev) {
+      if ('serviceWorker' in navigator) {
+            // Service workers are supported. Use them.
+            navigator.serviceWorker.register('firebase-messaging-sw.js').then(function() {
+                // Wait for registration to finish before dropping the <script> tag.
+                // Otherwise, the browser will load the script multiple times,
+                // potentially different versions.
+                var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+                // ...
+            }).catch(function(err) {
+                console.error('Error during service worker registration:', err);
+            });
+        }
+      
       // Download main.dart.js
+
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
