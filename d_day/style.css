@@ -1,0 +1,299 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+#initial-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    gap: 10px; /* 요소 간 간격 조정 */
+}
+
+#initial-screen h1 {
+    margin-bottom: 10px;
+}
+#guide-message-display {
+    margin-bottom: 15px;
+    font-style: italic;
+    color: #555;
+}
+
+.input-group, #initial-screen fieldset {
+    margin-bottom: 10px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.input-group label, #initial-screen fieldset legend {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#initial-screen input[type="text"],
+#initial-screen input[type="datetime-local"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 애니메이션 선택 UI 개선 */
+.animation-option {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 8px;
+    flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
+}
+.animation-option input[type="radio"] {
+    margin-right: 5px;
+}
+.animation-option label {
+    margin-right: 15px; /* 라벨과 다음 요소(있다면) 사이 간격 */
+    font-weight: normal; /* fieldset legend와 구분 */
+    white-space: nowrap; /* 라벨 텍스트 줄바꿈 방지 */
+}
+.animation-option input[type="text"] {
+    flex-grow: 1; /* 남은 공간을 채움 */
+    padding: 8px;
+    font-size: 0.9em;
+    min-width: 150px; /* 최소 너비 */
+}
+
+
+#initial-screen button {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#initial-screen button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 카운터 화면 */
+#counter-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    /* 상단 안내 문구 공간 확보 */
+    padding-top: 60px; /* 아래 #countdown-guide-message 높이와 연관 */
+    box-sizing: border-box;
+}
+
+/* 카운팅 화면 상단 안내 문구 */
+#countdown-guide-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #f0f0f0;
+    padding: 12px 0;
+    font-size: 3em;
+    text-align: center;
+    z-index: 1001;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 문구가 길 경우 ... 처리 */
+}
+
+/* 카운팅 화면 닫기 버튼 */
+#close-counter-button {
+    position: fixed;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* X 정렬 */
+    padding: 0;
+}
+#close-counter-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 카운트다운 숫자와 애니메이션 영역을 감싸는 컨테이너 */
+#countdown-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
+#countdown-display {
+    font-size: 6em;
+    font-weight: bold;
+    margin-bottom: 20px; /* 애니메이션 영역과의 간격 */
+}
+
+#countdown-display span {
+    padding: 0 10px;
+}
+
+#countdown-display #milliseconds {
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+#animation-area {
+    width: 80%;
+    max-width: 400px; /* 애니메이션 영역 최대 너비 */
+    height: 100px;
+    position: relative;
+    margin-top: 10px;
+}
+
+#moving-object {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 80px;
+    transition: left 0.1s linear;
+}
+
+#filling-circle-container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+}
+#filling-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    background: conic-gradient(#007bff 0deg, transparent 0deg);
+    transition: background 0.1s linear;
+}
+
+#final-message {
+    font-size: 2.5em;
+    color: #4CAF50;
+    padding: 20px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    #initial-screen {
+        gap: 15px;
+    }
+    .input-group, #initial-screen fieldset {
+        width: 90%;
+    }
+    .animation-option input[type="text"] {
+        margin-top: 5px; /* URL 입력 필드가 라벨 아래로 내려올 때 간격 */
+        width: 100%; /* URL 입력필드가 새 줄에 올 경우 전체 너비 */
+    }
+
+    #counter-screen {
+        padding-top: 50px; /* 가이드 메시지 높이에 맞춰 조정 */
+    }
+    #countdown-guide-message {
+        font-size: 1em;
+        padding: 10px 0;
+    }
+    #close-counter-button {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2em;
+        top: 12px;
+        right: 12px;
+    }
+    #countdown-display {
+        font-size: 2em;
+    }
+    #final-message {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    #initial-screen {
+        padding: 15px;
+    }
+    #initial-screen h1 {
+        font-size: 1.8em;
+    }
+    .input-group label, #initial-screen fieldset legend {
+        font-size: 0.9em;
+    }
+
+    #counter-screen {
+        padding-top: 45px; /* 가이드 메시지 높이에 맞춰 조정 */
+    }
+    #countdown-guide-message {
+        font-size: 0.9em;
+        padding: 8px 0;
+    }
+    #countdown-display {
+        font-size: 1.3em; /* 더 작은 화면에서 글자 크기 더 줄임 */
+    }
+    #countdown-display span {
+        display: block;
+        margin-bottom: 3px;
+    }
+    #countdown-display span#milliseconds {
+        display: inline-block; /* ms는 옆에 붙도록 */
+    }
+    #final-message {
+        font-size: 1.5em;
+    }
+    #animation-area {
+        height: 80px;
+    }
+    #moving-object {
+        height: 60px;
+    }
+    #filling-circle-container {
+        width: 80px;
+        height: 80px;
+    }
+}
